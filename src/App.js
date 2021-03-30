@@ -1,25 +1,58 @@
-import logo from './logo.svg';
-import './App.css';
+import React , {useState,useEffect} from "react";
+const Child = () =>{
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    useEffect( () => {
+    
+        fetch('https://jsonplaceholder.typicode.com/users')
+        .then(res => res.json()) 
+        .then(data => {
+
+            saveUserData(data)
+        
+        })
+        .catch(err=> console.log(err));
+
+    } , [])
+
+    const [ allUserData , saveUserData ] = useState([]) 
+
+    return(
+        <div>
+         
+            {/* <Header object={object} /> */}
+            <h2 style={{textAlign:'center',justifyContent:'center'}}>API DATA</h2>
+
+            <table>
+                
+            <th>Name</th>
+                   <th>Email</th>
+                    <th>Username</th>
+                <tbody>
+                    {
+                        allUserData.map( (value,index)=>{
+                            return(
+                                <tr>
+                                <td>
+                                {value.name}
+                                </td> 
+                                <td>
+                                {value.email}
+                                </td> 
+                                <td>
+                                {value.username}
+                                </td> 
+                                 </tr>
+                            )
+
+                        } )
+                    }
+                    
+                </tbody>
+
+            </table>
+
+        </div>
+    )
 }
 
-export default App;
+export default Child;
